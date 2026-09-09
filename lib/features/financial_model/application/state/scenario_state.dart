@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/results/financial_projection.dart';
 import '../../domain/entities/scenario/financial_scenario.dart';
+import '../../domain/entities/scenario/scenario_summary.dart';
 import '../../domain/validation/validation_issue.dart';
 
 enum ScenarioStatus { initial, loading, ready }
@@ -20,6 +21,7 @@ class ScenarioState extends Equatable {
     this.validation = const ValidationReport.valid(),
     this.failure,
     this.hasUnsavedChanges = false,
+    this.availableScenarios = const [],
   });
 
   final ScenarioStatus status;
@@ -35,6 +37,7 @@ class ScenarioState extends Equatable {
   final Failure? failure;
 
   final bool hasUnsavedChanges;
+  final List<ScenarioSummary> availableScenarios;
 
   bool get isReady =>
       status == ScenarioStatus.ready && scenario != null && projection != null;
@@ -47,6 +50,7 @@ class ScenarioState extends Equatable {
     bool? hasUnsavedChanges,
     bool clearFailure = false,
     Failure? failure,
+    List<ScenarioSummary>? availableScenarios,
   }) {
     return ScenarioState(
       status: status ?? this.status,
@@ -55,6 +59,7 @@ class ScenarioState extends Equatable {
       validation: validation ?? this.validation,
       failure: clearFailure ? null : (failure ?? this.failure),
       hasUnsavedChanges: hasUnsavedChanges ?? this.hasUnsavedChanges,
+      availableScenarios: availableScenarios ?? this.availableScenarios,
     );
   }
 
@@ -66,5 +71,6 @@ class ScenarioState extends Equatable {
     validation,
     failure,
     hasUnsavedChanges,
+    availableScenarios,
   ];
 }

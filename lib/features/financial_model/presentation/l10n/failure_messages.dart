@@ -11,6 +11,6 @@ String failureMessage(AppLocalizations l10n, Failure failure) {
       PersistenceFailureKind.corrupted => l10n.errorStorageCorrupted,
       PersistenceFailureKind.unsupportedVersion => l10n.errorStorageUnsupported,
     },
-    ImportFailure() => l10n.errorGeneric,
+    ImportFailure() => l10n.errorImportInvalid,
   };
 }

@@ -22,6 +22,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navAssumptions => 'Assumptions';
 
   @override
+  String get navStaffing => 'Staffing';
+
+  @override
+  String get navSeasonality => 'Seasonality';
+
+  @override
   String get navProjection => 'Projection';
 
   @override
@@ -29,6 +35,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navSensitivity => 'Sensitivity';
+
+  @override
+  String get navScenarios => 'Scenarios';
 
   @override
   String get navSettings => 'Settings';
@@ -40,6 +49,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get assumptionsTitle => 'Assumptions';
 
   @override
+  String get staffingTitle => 'Staffing roster';
+
+  @override
+  String get seasonalityTitle => 'Seasonality';
+
+  @override
   String get projectionTitle => 'Monthly projection';
 
   @override
@@ -47,6 +62,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sensitivityTitle => 'Sensitivity';
+
+  @override
+  String get scenariosTitle => 'Scenarios';
 
   @override
   String get settingsTitle => 'Settings';
@@ -147,6 +165,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get metricRoundsPerDay => 'Rounds per day';
+
+  @override
+  String get metricNpv => 'Net present value (NPV)';
+
+  @override
+  String get metricIrr => 'Internal rate of return (IRR)';
+
+  @override
+  String get metricDiscountedPayback => 'Discounted payback';
+
+  @override
+  String get metricBreakEvenOccupancy => 'Break-even occupancy';
+
+  @override
+  String get metricBreakEvenRevenue => 'Break-even revenue';
+
+  @override
+  String get metricRequiredFunding => 'Required funding';
+
+  @override
+  String get metricFundingGap => 'Funding gap';
+
+  @override
+  String get metricMinimumCash => 'Minimum cash balance';
+
+  @override
+  String get metricWorkingCapital => 'Working capital';
+
+  @override
+  String get irrUnavailable =>
+      'IRR is unavailable because cash flows do not produce a unique result.';
+
+  @override
+  String get metricUnavailable => 'Unavailable for the current assumptions.';
 
   @override
   String get roiStudyDefinition =>
@@ -765,6 +817,57 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get scenariosSubtitle =>
+      'Create, switch, duplicate, and compare complete financial models.';
+
+  @override
+  String get scenariosCreateBase => 'New from Base';
+
+  @override
+  String get scenariosCreateWorst => 'New Worst Case';
+
+  @override
+  String get scenariosSaved => 'Saved scenarios';
+
+  @override
+  String get scenariosCompare => 'Compare scenarios';
+
+  @override
+  String get scenariosCompareHint => 'Select 2 to 4 scenarios above.';
+
+  @override
+  String get scenariosCompareSelected => 'Compare selected';
+
+  @override
+  String get scenariosComparisonTitle => 'Scenario comparison';
+
+  @override
+  String scenariosUpdated(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String get scenariosDuplicate => 'Duplicate';
+
+  @override
+  String get scenariosDelete => 'Delete';
+
+  @override
+  String get scenariosDeleteTitle => 'Delete scenario?';
+
+  @override
+  String scenariosDeleteBody(String name) {
+    return 'Delete “$name”? This cannot be undone.';
+  }
+
+  @override
+  String get scenariosResetBuiltinBody =>
+      'Base is recoverable and cannot be removed. Reset it to the original study values?';
+
+  @override
+  String get scenariosMetric => 'Metric';
+
+  @override
   String get settingsScenario => 'Scenario';
 
   @override
@@ -801,11 +904,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageEnglish => 'English';
 
   @override
+  String get settingsLanguageArabic => 'Arabic';
+
+  @override
   String get settingsData => 'Data';
 
   @override
   String get settingsAutosaveNote =>
       'Changes are saved on this device automatically.';
+
+  @override
+  String get settingsExportScenario => 'Copy scenario (JSON)';
+
+  @override
+  String get settingsScenarioExported =>
+      'Scenario JSON copied to the clipboard';
+
+  @override
+  String get settingsExportProjection =>
+      'Copy projection (Excel-compatible CSV)';
+
+  @override
+  String get settingsProjectionExported =>
+      'Projection CSV copied to the clipboard';
+
+  @override
+  String get settingsImportScenario => 'Import scenario (JSON)';
+
+  @override
+  String get settingsImportJsonHint =>
+      'Paste a scenario JSON export below, then choose whether to create a new scenario or replace the active one.';
+
+  @override
+  String get settingsScenarioJson => 'Scenario JSON';
+
+  @override
+  String get settingsImportCreateNew => 'Create a new scenario';
+
+  @override
+  String get settingsImportReplace => 'Replace the active scenario';
+
+  @override
+  String get settingsImportAction => 'Import';
+
+  @override
+  String get settingsScenarioImported => 'Scenario imported successfully';
 
   @override
   String get settingsResetScenario => 'Reset to the study baseline';
@@ -856,6 +999,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'The saved scenario was created by a newer version of the app.';
 
   @override
+  String get errorImportInvalid => 'The pasted JSON is not a valid scenario.';
+
+  @override
   String get errorGeneric => 'Something went wrong.';
 
   @override
@@ -874,4 +1020,365 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noResultsYet => 'No results yet';
+
+  @override
+  String get sectionInvestment => 'Investment analysis';
+
+  @override
+  String get sectionFunding => 'Working capital and funding';
+
+  @override
+  String get sectionStress => 'Stress / critical failure';
+
+  @override
+  String get fieldAnnualDiscountRate => 'Annual discount rate';
+
+  @override
+  String get fieldWorkingCapitalFixed => 'Working capital reserve';
+
+  @override
+  String get fieldOpeningDelayBuffer => 'Opening delay buffer';
+
+  @override
+  String get fieldCriticalFailureStartMonth => 'Critical failure start month';
+
+  @override
+  String get fieldCriticalFailureDowntimeDays =>
+      'Critical failure downtime days';
+
+  @override
+  String get helpAnnualDiscountRate =>
+      'Used for NPV and discounted payback. Monthly discounting uses this annual rate divided by 12.';
+
+  @override
+  String get helpWorkingCapitalFixed =>
+      'Cash reserve held in addition to the start-up investment. Required funding is investment plus this reserve plus any opening delay buffer.';
+
+  @override
+  String get helpCriticalFailure =>
+      'Critical failure is off in the base case. These fields configure a stress event.';
+
+  @override
+  String get enableCriticalFailure => 'Enable critical failure';
+
+  @override
+  String get additionalExpenses => 'Custom monthly expenses';
+
+  @override
+  String get addExpense => 'Add expense';
+
+  @override
+  String get removeExpense => 'Remove expense';
+
+  @override
+  String get noAdditionalExpenses => 'No custom expenses';
+
+  @override
+  String get expenseName => 'Expense name';
+
+  @override
+  String get monthlyAmount => 'Monthly amount';
+
+  @override
+  String get employeeRoster => 'Employee roster';
+
+  @override
+  String get addEmployee => 'Add employee';
+
+  @override
+  String get editEmployee => 'Edit employee';
+
+  @override
+  String get deleteEmployee => 'Delete employee';
+
+  @override
+  String get noEmployees => 'No roster employees yet';
+
+  @override
+  String get employeeName => 'Employee name';
+
+  @override
+  String get founder => 'Founder (unpaid)';
+
+  @override
+  String get fixedMonthlySalary => 'Fixed monthly salary (optional)';
+
+  @override
+  String get weeklyShifts => 'Weekly shifts';
+
+  @override
+  String get shifts => 'shifts';
+
+  @override
+  String get addShift => 'Add shift';
+
+  @override
+  String get weekday => 'Weekday';
+
+  @override
+  String get startHour => 'Start hour';
+
+  @override
+  String get endHour => 'End hour';
+
+  @override
+  String get breakHours => 'Break hours';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get payrollConfiguration => 'Payroll configuration';
+
+  @override
+  String get payrollMode => 'Payroll mode';
+
+  @override
+  String get payrollFixed => 'Fixed per employee';
+
+  @override
+  String get payrollProportional => 'Proportional to hours';
+
+  @override
+  String get sharedPayrollBudget => 'Shared monthly payroll budget';
+
+  @override
+  String get overtimeMultiplier => 'Overtime multiplier';
+
+  @override
+  String get regularHoursCap => 'Regular monthly hours cap (optional)';
+
+  @override
+  String get bonusConfiguration => 'Bonus configuration';
+
+  @override
+  String get bonusMode => 'Bonus mode';
+
+  @override
+  String get bonusDisabled => 'Disabled';
+
+  @override
+  String get bonusExcessRevenue => 'Percentage of excess revenue';
+
+  @override
+  String get bonusFixedThreshold => 'Fixed amount at threshold';
+
+  @override
+  String get revenueTarget => 'Revenue target';
+
+  @override
+  String get thresholdMultiplier => 'Threshold multiplier (percent points)';
+
+  @override
+  String get percentageOfExcess => 'Percentage of excess';
+
+  @override
+  String get fixedBonusAmount => 'Fixed bonus amount';
+
+  @override
+  String get seasonalityNotice =>
+      'Base occupancy still comes from the occupancy schedule. These factors multiply it only when seasonality is enabled.';
+
+  @override
+  String get seasonalityDemand => 'Demand factors';
+
+  @override
+  String get enableSeasonality => 'Enable seasonality';
+
+  @override
+  String get weatherFactor => 'Weather demand factor';
+
+  @override
+  String get marketingFactor => 'Marketing demand factor';
+
+  @override
+  String get monthFactors => 'Month factors';
+
+  @override
+  String get dayFactors => 'Day-of-week factors';
+
+  @override
+  String get seasonalityEvents => 'Calendar events';
+
+  @override
+  String get addEvent => 'Add event';
+
+  @override
+  String get editEvent => 'Edit event';
+
+  @override
+  String get noEvents => 'No calendar events';
+
+  @override
+  String get eventName => 'Event name';
+
+  @override
+  String get startMonth => 'Start month';
+
+  @override
+  String get endMonth => 'End month';
+
+  @override
+  String get demandFactor => 'Demand factor';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get forecastingMode => 'Forecasting mode';
+
+  @override
+  String get forecastingModeOccupancy => 'Occupancy-driven';
+
+  @override
+  String get forecastingModeMarketing => 'Marketing-driven';
+
+  @override
+  String get marketingForecastHint =>
+      'Marketing-driven mode replaces the occupancy schedule when its inputs produce demand. Seasonality still multiplies the resulting occupancy; zero demand inputs fall back to the occupancy schedule.';
+
+  @override
+  String get monthlyMarketingBudget => 'Monthly marketing budget';
+
+  @override
+  String get marketingReach => 'People reached per month';
+
+  @override
+  String get marketingConversionRate => 'Conversion rate';
+
+  @override
+  String get averageRoundsPerCustomer =>
+      'Average rounds per converted customer';
+
+  @override
+  String get useWeeklyOperatingHours => 'Use weekly operating hours';
+
+  @override
+  String get weeklyOperatingHoursHint =>
+      'Set hours for each day. Thursday, Friday, and Saturday can be longer.';
+
+  @override
+  String get equipmentLifecycle => 'Equipment lifecycle';
+
+  @override
+  String get equipmentLifecycleHint =>
+      'Plan reserves and an optional replacement; this does not predict forced equipment failure.';
+
+  @override
+  String get usefulLifeMonths => 'Useful life';
+
+  @override
+  String get replacementCost => 'Planned replacement cost';
+
+  @override
+  String get replacementCostHint =>
+      'Leave at zero to use the currently selected package cost.';
+
+  @override
+  String get monthlyMaintenanceReserve => 'Monthly maintenance reserve';
+
+  @override
+  String get sparePartsReserve => 'Monthly spare-parts reserve';
+
+  @override
+  String get includePlannedReplacement =>
+      'Include planned replacement in projection';
+
+  @override
+  String get plannedReplacementHint =>
+      'Adds a one-time investment outflow at the rounded useful-life month.';
+
+  @override
+  String get navActuals => 'Actuals';
+
+  @override
+  String get actualsTitle => 'Actual vs forecast';
+
+  @override
+  String get actualsIntro =>
+      'Enter recorded results for trading months. Variance is actual minus forecast. Months without actuals stay blank.';
+
+  @override
+  String get actualsAddMonth => 'Add month actuals';
+
+  @override
+  String actualsEditMonth(Object month) {
+    return 'Edit month $month';
+  }
+
+  @override
+  String get actualsRevenue => 'Actual revenue';
+
+  @override
+  String get actualsExpenses => 'Actual operating expenses';
+
+  @override
+  String get actualsClearAll => 'Clear all actuals';
+
+  @override
+  String get actualsClearMonth => 'Remove';
+
+  @override
+  String get actualsEmpty => 'No actuals recorded yet.';
+
+  @override
+  String get actualsVariance => 'Variance';
+
+  @override
+  String get actualsForecast => 'Forecast';
+
+  @override
+  String get actualsActual => 'Actual';
+
+  @override
+  String get sectionDebt => 'Debt financing';
+
+  @override
+  String get enableDebt => 'Include debt financing';
+
+  @override
+  String get fieldDebtPrincipal => 'Loan principal';
+
+  @override
+  String get fieldDebtInterestRate => 'Annual interest rate';
+
+  @override
+  String get fieldDebtTermMonths => 'Term (months)';
+
+  @override
+  String get fieldDebtFirstPaymentMonth => 'First payment month';
+
+  @override
+  String get fieldDebtDisbursementMonth => 'Disbursement month';
+
+  @override
+  String get fieldDebtKind => 'Amortization';
+
+  @override
+  String get debtKindAnnuity => 'Annuity (amortizing)';
+
+  @override
+  String get debtKindInterestOnly => 'Interest-only (balloon principal)';
+
+  @override
+  String get debtHelp =>
+      'Debt service changes cash flow, not operating profit. Disabled by default so the study baseline is unchanged.';
 }

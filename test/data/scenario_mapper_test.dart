@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:the_floor_is_lava/features/financial_model/data/models/scenario_mapper.dart';
 import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/assumption_status.dart';
+import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/actuals_ledger.dart';
 import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/cost_item.dart';
+import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/debt_assumptions.dart';
+import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/revenue_model.dart';
 import 'package:the_floor_is_lava/features/financial_model/domain/services/financial_model_calculator.dart';
 import 'package:the_floor_is_lava/features/financial_model/domain/value_objects/money.dart';
+import 'package:the_floor_is_lava/features/financial_model/domain/value_objects/percentage.dart';
 
 import '../fixtures/scenario_fixtures.dart';
 
@@ -83,6 +87,108 @@ void main() {
       final json = ScenarioMapper.toJson(baseline());
       expect(json['schemaVersion'], ScenarioMapper.schemaVersion);
       expect(json['modelVersion'], 'financial_model_v1');
+    });
+
+    test('weekly operating hours survive persistence', () {
+      final scenario = baseline();
+      final configured = scenario.copyWith(
+        revenue: scenario.revenue.copyWith(
+          schedule: scenario.revenue.schedule.copyWith(
+            weeklyProfile: const WeeklyOperatingProfile(
+              days: [
+                DayOperatingHours(weekday: DateTime.thursday, hours: 14),
+                DayOperatingHours(weekday: DateTime.friday, hours: 14),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final restored = ScenarioMapper.fromJson(
+        ScenarioMapper.toJson(configured),
+      );
+      expect(
+        restored.revenue.schedule.weeklyProfile,
+        configured.revenue.schedule.weeklyProfile,
+      );
+    });
+
+    test('disabled weekly profile remains an optional stored key', () {
+      final json = ScenarioMapper.toJson(baseline());
+      final revenue = json['revenue'] as Map<String, dynamic>;
+      final schedule = revenue['schedule'] as Map<String, dynamic>;
+
+      expect(schedule.containsKey('weeklyProfile'), isFalse);
+      expect(
+        ScenarioMapper.fromJson(json).revenue.schedule.weeklyProfile.isEnabled,
+        isFalse,
+      );
+    });
+
+    test('a version 1 save defaults the missing discount rate to 10%', () {
+      final json = ScenarioMapper.toJson(baseline())
+        ..['schemaVersion'] = 1
+        ..remove('investmentAssumptions');
+      final restored = ScenarioMapper.fromJson(json);
+
+      expect(
+        restored.investmentAssumptions.annualDiscountRate.percent,
+        closeTo(10, 1e-12),
+      );
+    });
+
+    test('missing optional overlays restore baseline-safe defaults', () {
+      final json = ScenarioMapper.toJson(baseline());
+      for (final key in [
+        'workingCapital',
+        'fundingAssumptions',
+        'seasonality',
+        'stressAssumptions',
+        'paymentAssumptions',
+        'taxAssumptions',
+        'debtAssumptions',
+        'actuals',
+      ]) {
+        json.remove(key);
+      }
+      final restored = ScenarioMapper.fromJson(json);
+
+      expect(restored.workingCapital.fixedAmount, Money.zero);
+      expect(restored.seasonality.enabled, isFalse);
+      expect(restored.stressAssumptions.criticalFailureEnabled, isFalse);
+      expect(restored.paymentAssumptions.digitalPaymentFeeRate.isZero, isTrue);
+      expect(restored.taxAssumptions.vatRate.isZero, isTrue);
+      expect(restored.debtAssumptions.enabled, isFalse);
+      expect(restored.actuals.months, isEmpty);
+    });
+
+    test('debt assumptions and sparse actuals survive persistence', () {
+      final configured = baseline().copyWith(
+        debtAssumptions: const DebtAssumptions(
+          enabled: true,
+          principal: Money.units(12000),
+          annualInterestRate: Percentage.fromPercent(7.5),
+          termMonths: 18,
+          disbursementMonth: 0,
+          firstPaymentMonth: 2,
+          kind: DebtAmortizationKind.interestOnly,
+        ),
+        actuals: const ActualsLedger(
+          months: [
+            MonthlyActuals(
+              monthNumber: 2,
+              revenue: Money.units(9000),
+              occupancy: Percentage.fromPercent(55),
+            ),
+          ],
+        ),
+      );
+
+      final restored = ScenarioMapper.fromJson(
+        ScenarioMapper.toJson(configured),
+      );
+      expect(restored.debtAssumptions, configured.debtAssumptions);
+      expect(restored.actuals, configured.actuals);
     });
 
     test('a newer schema is refused rather than misread', () {

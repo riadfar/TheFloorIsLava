@@ -7,6 +7,7 @@ import 'package:the_floor_is_lava/features/financial_model/application/use_cases
 import 'package:the_floor_is_lava/features/financial_model/application/use_cases/save_scenario.dart';
 import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/assumption_status.dart';
 import 'package:the_floor_is_lava/features/settings/application/settings_cubit.dart';
+import 'package:the_floor_is_lava/features/settings/domain/app_settings.dart';
 
 import '../fixtures/fake_repositories.dart';
 import 'responsive_layout_test.dart'
@@ -19,7 +20,7 @@ import 'responsive_layout_test.dart'
 
 /// Builds the real application over in-memory storage.
 ({Widget app, ScenarioCubit scenario, FakeScenarioRepository repository})
-buildApp() {
+buildApp({Locale? locale}) {
   final repository = FakeScenarioRepository();
   final scenarioCubit = ScenarioCubit(
     loadScenario: LoadScenario(repository),
@@ -27,7 +28,9 @@ buildApp() {
     resetScenario: ResetScenario(repository),
     autosaveDelay: const Duration(milliseconds: 10),
   );
-  final settingsCubit = SettingsCubit(FakeSettingsRepository());
+  final settingsCubit = SettingsCubit(
+    FakeSettingsRepository(AppSettings(languageCode: locale?.languageCode)),
+  );
 
   scenarioCubit.initialise();
   settingsCubit.initialise();
@@ -82,9 +85,26 @@ void main() {
 
       expect(find.text('Dashboard'), findsWidgets);
       expect(find.text('Initial investment'), findsOneWidget);
-      // The workbook's headline figure, formatted for display.
-      expect(find.text(r'$16,412'), findsOneWidget);
-      expect(find.text('During month 5'), findsOneWidget);
+      // The workbook's headline figure, formatted for display. It also appears
+      // as required funding when working capital is zero.
+      expect(find.text(r'$16,412'), findsAtLeastNWidgets(1));
+      expect(find.text('During month 5'), findsWidgets);
+
+      await harness.scenario.close();
+    });
+
+    testWidgets('renders the dashboard in Arabic with RTL direction', (
+      tester,
+    ) async {
+      final harness = buildApp(locale: const Locale('ar'));
+      await tester.pumpWidget(harness.app);
+      await setScreen(tester, smallPhonePortrait);
+
+      expect(find.text('لوحة المعلومات'), findsWidgets);
+      expect(
+        Directionality.of(tester.element(find.text('لوحة المعلومات').first)),
+        TextDirection.rtl,
+      );
 
       await harness.scenario.close();
     });
@@ -139,6 +159,24 @@ void main() {
   });
 
   group('navigating between destinations', () {
+    testWidgets('staffing and seasonality render on a phone', (tester) async {
+      final harness = buildApp();
+      await tester.pumpWidget(harness.app);
+      await setScreen(tester, smallPhonePortrait);
+
+      for (final destination in ['Staffing', 'Seasonality']) {
+        await tester.tap(find.text(destination).first);
+        await tester.pumpAndSettle();
+        expect(
+          tester.takeException(),
+          isNull,
+          reason: '$destination overflowed on a phone',
+        );
+      }
+
+      await harness.scenario.close();
+    });
+
     testWidgets('each screen renders its own content', (tester) async {
       final harness = buildApp();
       await tester.pumpWidget(harness.app);
@@ -146,9 +184,12 @@ void main() {
 
       for (final destination in [
         'Assumptions',
+        'Staffing',
+        'Seasonality',
         'Projection',
         'Start-up costs',
         'Sensitivity',
+        'Scenarios',
         'Settings',
       ]) {
         await tester.tap(find.text(destination).first);
@@ -160,6 +201,22 @@ void main() {
         );
       }
 
+      await harness.scenario.close();
+    });
+
+    testWidgets('the scenarios destination renders the scenario list', (
+      tester,
+    ) async {
+      final harness = buildApp();
+      await tester.pumpWidget(harness.app);
+      await setScreen(tester, tabletLandscape);
+
+      await tester.tap(find.text('Scenarios').first);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Saved scenarios'), findsOneWidget);
+      expect(find.text('New from Base'), findsOneWidget);
+      expect(tester.takeException(), isNull);
       await harness.scenario.close();
     });
 

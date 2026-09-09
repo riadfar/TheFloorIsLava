@@ -1,6 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 import '../../value_objects/money.dart';
+import 'employee_roster.dart';
+import 'payroll_configuration.dart';
+
+enum StaffingHeadcountRule { byMonth, byOccupancyThreshold }
 
 /// The headcount plan and what each head costs.
 ///
@@ -15,6 +19,10 @@ class StaffingModel extends Equatable {
     required this.expansionMonth,
     required this.monthlySalaryPerEmployee,
     required this.monthlyIncentivePerEmployee,
+    this.payroll = const PayrollConfiguration(),
+    this.roster = const EmployeeRoster(),
+    this.regularHoursPerMonthCap,
+    this.headcountRule = StaffingHeadcountRule.byMonth,
   });
 
   /// Headcount from month 1 until the expansion.
@@ -28,6 +36,12 @@ class StaffingModel extends Equatable {
 
   final Money monthlySalaryPerEmployee;
   final Money monthlyIncentivePerEmployee;
+  final PayrollConfiguration payroll;
+  final EmployeeRoster roster;
+  final int? regularHoursPerMonthCap;
+  final StaffingHeadcountRule headcountRule;
+
+  static const _unchanged = Object();
 
   StaffingModel copyWith({
     int? initialEmployeeCount,
@@ -35,6 +49,10 @@ class StaffingModel extends Equatable {
     int? expansionMonth,
     Money? monthlySalaryPerEmployee,
     Money? monthlyIncentivePerEmployee,
+    PayrollConfiguration? payroll,
+    EmployeeRoster? roster,
+    Object? regularHoursPerMonthCap = _unchanged,
+    StaffingHeadcountRule? headcountRule,
   }) {
     return StaffingModel(
       initialEmployeeCount: initialEmployeeCount ?? this.initialEmployeeCount,
@@ -45,6 +63,12 @@ class StaffingModel extends Equatable {
           monthlySalaryPerEmployee ?? this.monthlySalaryPerEmployee,
       monthlyIncentivePerEmployee:
           monthlyIncentivePerEmployee ?? this.monthlyIncentivePerEmployee,
+      payroll: payroll ?? this.payroll,
+      roster: roster ?? this.roster,
+      regularHoursPerMonthCap: identical(regularHoursPerMonthCap, _unchanged)
+          ? this.regularHoursPerMonthCap
+          : regularHoursPerMonthCap as int?,
+      headcountRule: headcountRule ?? this.headcountRule,
     );
   }
 
@@ -55,5 +79,9 @@ class StaffingModel extends Equatable {
     expansionMonth,
     monthlySalaryPerEmployee,
     monthlyIncentivePerEmployee,
+    payroll,
+    roster,
+    regularHoursPerMonthCap,
+    headcountRule,
   ];
 }

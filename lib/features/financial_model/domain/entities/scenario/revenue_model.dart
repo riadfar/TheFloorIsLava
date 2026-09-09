@@ -75,14 +75,70 @@ class CapacityModel extends Equatable {
 }
 
 /// When the venue is open.
+class DayOperatingHours extends Equatable {
+  const DayOperatingHours({required this.weekday, required this.hours})
+    : assert(weekday >= DateTime.monday && weekday <= DateTime.sunday),
+      assert(hours >= 0 && hours <= 24);
+
+  /// Uses [DateTime.weekday]: Monday is 1 and Sunday is 7.
+  final int weekday;
+  final double hours;
+
+  DayOperatingHours copyWith({int? weekday, double? hours}) {
+    return DayOperatingHours(
+      weekday: weekday ?? this.weekday,
+      hours: hours ?? this.hours,
+    );
+  }
+
+  @override
+  List<Object?> get props => [weekday, hours];
+}
+
+/// Optional day-by-day hours used as a weighted flat-day approximation.
+///
+/// The monthly model still uses one representative operating day. When this
+/// profile is enabled, that day uses the average hours of configured open days.
+class WeeklyOperatingProfile extends Equatable {
+  const WeeklyOperatingProfile({this.days = const []});
+
+  /// An empty list disables the profile.
+  final List<DayOperatingHours> days;
+
+  bool get isEnabled => days.isNotEmpty;
+
+  double? hoursForWeekday(int weekday) {
+    for (final day in days) {
+      if (day.weekday == weekday) return day.hours;
+    }
+    return null;
+  }
+
+  double averageHoursPerOperatingDay() {
+    final operatingDays = days.where((day) => day.hours > 0);
+    if (operatingDays.isEmpty) return 0;
+    return operatingDays.fold<double>(0, (sum, day) => sum + day.hours) /
+        operatingDays.length;
+  }
+
+  WeeklyOperatingProfile copyWith({List<DayOperatingHours>? days}) {
+    return WeeklyOperatingProfile(days: days ?? this.days);
+  }
+
+  @override
+  List<Object?> get props => [days];
+}
+
+/// When the venue is open.
 class OperatingSchedule extends Equatable {
   const OperatingSchedule({
     required this.hoursPerDay,
     required this.daysPerWeek,
     required this.daysPerMonth,
+    this.weeklyProfile = const WeeklyOperatingProfile(),
   });
 
-  /// Trading hours in a day. Drives the number of sellable rounds.
+  /// Trading hours in a day. Used when [weeklyProfile] is disabled.
   final double hoursPerDay;
 
   /// Trading days in a week. Descriptive in this model: the study drives the
@@ -93,20 +149,30 @@ class OperatingSchedule extends Equatable {
   /// Trading days in an average month (30.4 in the study).
   final double daysPerMonth;
 
+  /// Optional day-by-day hours for the representative monthly operating day.
+  final WeeklyOperatingProfile weeklyProfile;
+
   OperatingSchedule copyWith({
     double? hoursPerDay,
     int? daysPerWeek,
     double? daysPerMonth,
+    WeeklyOperatingProfile? weeklyProfile,
   }) {
     return OperatingSchedule(
       hoursPerDay: hoursPerDay ?? this.hoursPerDay,
       daysPerWeek: daysPerWeek ?? this.daysPerWeek,
       daysPerMonth: daysPerMonth ?? this.daysPerMonth,
+      weeklyProfile: weeklyProfile ?? this.weeklyProfile,
     );
   }
 
   @override
-  List<Object?> get props => [hoursPerDay, daysPerWeek, daysPerMonth];
+  List<Object?> get props => [
+    hoursPerDay,
+    daysPerWeek,
+    daysPerMonth,
+    weeklyProfile,
+  ];
 }
 
 /// The share of theoretical capacity the business expects to actually sell,

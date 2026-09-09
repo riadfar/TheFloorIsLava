@@ -6,6 +6,8 @@ import 'package:the_floor_is_lava/features/financial_model/application/use_cases
 import 'package:the_floor_is_lava/features/financial_model/application/use_cases/reset_scenario.dart';
 import 'package:the_floor_is_lava/features/financial_model/application/use_cases/save_scenario.dart';
 import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/assumption_status.dart';
+import 'package:the_floor_is_lava/features/financial_model/domain/entities/scenario/cost_item.dart';
+import 'package:the_floor_is_lava/features/financial_model/domain/value_objects/money.dart';
 
 import 'package:the_floor_is_lava/features/financial_model/domain/validation/validation_issue.dart';
 
@@ -151,6 +153,51 @@ void main() {
       expect(cubit.state.projection!.startupCosts.equipmentCost.amount, 10285);
       await cubit.close();
     });
+
+    test('custom expense is added and included in monthly costs', () async {
+      final cubit = buildCubit(FakeScenarioRepository());
+      await cubit.initialise();
+      final before =
+          cubit.state.projection!.steadyStateMonth!.otherOperatingExpenses;
+
+      cubit.addAdditionalExpense(
+        const CostItem(
+          id: 'insurance',
+          label: 'Insurance',
+          amount: Money.units(250),
+        ),
+      );
+
+      expect(
+        cubit.state.scenario!.operatingExpenses.additionalExpenses,
+        hasLength(1),
+      );
+      expect(
+        cubit.state.projection!.steadyStateMonth!.otherOperatingExpenses,
+        before + const Money.units(250),
+      );
+      await cubit.close();
+    });
+
+    test('enabled seasonality factors change the projection', () async {
+      final cubit = buildCubit(FakeScenarioRepository());
+      await cubit.initialise();
+      final before = cubit.state.projection!.steadyStateMonth!.monthlyRevenue;
+
+      cubit.setSeasonalityWeatherFactor(0.5);
+      expect(
+        cubit.state.projection!.steadyStateMonth!.monthlyRevenue,
+        before,
+        reason: 'disabled seasonality must preserve the baseline',
+      );
+
+      cubit.setSeasonalityEnabled(true);
+      expect(
+        cubit.state.projection!.steadyStateMonth!.monthlyRevenue,
+        lessThan(before),
+      );
+      await cubit.close();
+    });
   });
 
   group('ScenarioCubit - persistence', () {
@@ -243,6 +290,47 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 250));
 
       expect(repository.saveCount, 0);
+    });
+  });
+
+  group('ScenarioCubit - scenario management', () {
+    test('duplicates, selects, and deletes complete scenarios', () async {
+      final repository = FakeScenarioRepository();
+      final cubit = buildCubit(repository);
+      await cubit.initialise();
+      final baseId = cubit.state.scenario!.metadata.id;
+
+      await cubit.duplicateActiveScenario();
+      final copyId = cubit.state.scenario!.metadata.id;
+      expect(copyId, isNot(baseId));
+      expect(cubit.state.scenario!.metadata.name, endsWith(' (copy)'));
+      expect(cubit.state.availableScenarios, hasLength(2));
+
+      await cubit.selectScenario(baseId);
+      expect(cubit.state.scenario!.metadata.id, baseId);
+
+      await cubit.deleteScenario(copyId);
+      expect(cubit.state.availableScenarios, hasLength(1));
+      expect(cubit.state.scenario!.metadata.id, baseId);
+      await cubit.close();
+    });
+
+    test('comparison reflects worst-case stress', () async {
+      final repository = FakeScenarioRepository();
+      final cubit = buildCubit(repository);
+      await cubit.initialise();
+      final baseId = cubit.state.scenario!.metadata.id;
+      await cubit.createWorstCaseScenario();
+      final worstId = cubit.state.scenario!.metadata.id;
+
+      final comparison = await cubit.compareScenarios([baseId, worstId]);
+
+      expect(comparison, hasLength(2));
+      expect(
+        comparison[worstId]!.monthlyResults[6].monthlyRevenue,
+        lessThan(comparison[baseId]!.monthlyResults[6].monthlyRevenue),
+      );
+      await cubit.close();
     });
   });
 }

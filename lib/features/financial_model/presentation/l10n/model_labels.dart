@@ -52,6 +52,12 @@ extension ModelLabels on AppLocalizations {
     AssumptionKey.projectionMonths => fieldProjectionMonths,
     AssumptionKey.conservativeOccupancy => fieldConservativeOccupancy,
     AssumptionKey.optimisticOccupancy => fieldOptimisticOccupancy,
+    AssumptionKey.annualDiscountRate => fieldAnnualDiscountRate,
+    AssumptionKey.workingCapitalFixed => fieldWorkingCapitalFixed,
+    AssumptionKey.openingDelayBuffer => fieldOpeningDelayBuffer,
+    AssumptionKey.criticalFailureStartMonth => fieldCriticalFailureStartMonth,
+    AssumptionKey.criticalFailureDowntimeDays =>
+      fieldCriticalFailureDowntimeDays,
   };
 
   /// Extra guidance, where an input genuinely needs it. Most do not.
@@ -66,6 +72,10 @@ extension ModelLabels on AppLocalizations {
     AssumptionKey.maximumSetupDays => helpSetupDays,
     AssumptionKey.shippingRate || AssumptionKey.customsRate => helpShipping,
     AssumptionKey.contingencyRate => helpContingency,
+    AssumptionKey.annualDiscountRate => helpAnnualDiscountRate,
+    AssumptionKey.workingCapitalFixed => helpWorkingCapitalFixed,
+    AssumptionKey.criticalFailureStartMonth ||
+    AssumptionKey.criticalFailureDowntimeDays => helpCriticalFailure,
     _ => null,
   };
 

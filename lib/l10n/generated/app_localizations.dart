@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
 
 // ignore_for_file: type=lint
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+  ];
 
   /// No description provided for @appTitle.
   ///
@@ -118,6 +122,18 @@ abstract class AppLocalizations {
   /// **'Assumptions'**
   String get navAssumptions;
 
+  /// No description provided for @navStaffing.
+  ///
+  /// In en, this message translates to:
+  /// **'Staffing'**
+  String get navStaffing;
+
+  /// No description provided for @navSeasonality.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasonality'**
+  String get navSeasonality;
+
   /// No description provided for @navProjection.
   ///
   /// In en, this message translates to:
@@ -135,6 +151,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sensitivity'**
   String get navSensitivity;
+
+  /// No description provided for @navScenarios.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenarios'**
+  String get navScenarios;
 
   /// No description provided for @navSettings.
   ///
@@ -154,6 +176,18 @@ abstract class AppLocalizations {
   /// **'Assumptions'**
   String get assumptionsTitle;
 
+  /// No description provided for @staffingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Staffing roster'**
+  String get staffingTitle;
+
+  /// No description provided for @seasonalityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasonality'**
+  String get seasonalityTitle;
+
   /// No description provided for @projectionTitle.
   ///
   /// In en, this message translates to:
@@ -171,6 +205,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sensitivity'**
   String get sensitivityTitle;
+
+  /// No description provided for @scenariosTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenarios'**
+  String get scenariosTitle;
 
   /// No description provided for @settingsTitle.
   ///
@@ -351,6 +391,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rounds per day'**
   String get metricRoundsPerDay;
+
+  /// No description provided for @metricNpv.
+  ///
+  /// In en, this message translates to:
+  /// **'Net present value (NPV)'**
+  String get metricNpv;
+
+  /// No description provided for @metricIrr.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal rate of return (IRR)'**
+  String get metricIrr;
+
+  /// No description provided for @metricDiscountedPayback.
+  ///
+  /// In en, this message translates to:
+  /// **'Discounted payback'**
+  String get metricDiscountedPayback;
+
+  /// No description provided for @metricBreakEvenOccupancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Break-even occupancy'**
+  String get metricBreakEvenOccupancy;
+
+  /// No description provided for @metricBreakEvenRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Break-even revenue'**
+  String get metricBreakEvenRevenue;
+
+  /// No description provided for @metricRequiredFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Required funding'**
+  String get metricRequiredFunding;
+
+  /// No description provided for @metricFundingGap.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding gap'**
+  String get metricFundingGap;
+
+  /// No description provided for @metricMinimumCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum cash balance'**
+  String get metricMinimumCash;
+
+  /// No description provided for @metricWorkingCapital.
+  ///
+  /// In en, this message translates to:
+  /// **'Working capital'**
+  String get metricWorkingCapital;
+
+  /// No description provided for @irrUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'IRR is unavailable because cash flows do not produce a unique result.'**
+  String get irrUnavailable;
+
+  /// No description provided for @metricUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable for the current assumptions.'**
+  String get metricUnavailable;
 
   /// No description provided for @roiStudyDefinition.
   ///
@@ -1438,6 +1544,96 @@ abstract class AppLocalizations {
   /// **'Every case is priced at the steady-state cost base of {expenses} per month.'**
   String sensitivityCostBaseNote(String expenses);
 
+  /// No description provided for @scenariosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, switch, duplicate, and compare complete financial models.'**
+  String get scenariosSubtitle;
+
+  /// No description provided for @scenariosCreateBase.
+  ///
+  /// In en, this message translates to:
+  /// **'New from Base'**
+  String get scenariosCreateBase;
+
+  /// No description provided for @scenariosCreateWorst.
+  ///
+  /// In en, this message translates to:
+  /// **'New Worst Case'**
+  String get scenariosCreateWorst;
+
+  /// No description provided for @scenariosSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved scenarios'**
+  String get scenariosSaved;
+
+  /// No description provided for @scenariosCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare scenarios'**
+  String get scenariosCompare;
+
+  /// No description provided for @scenariosCompareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select 2 to 4 scenarios above.'**
+  String get scenariosCompareHint;
+
+  /// No description provided for @scenariosCompareSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare selected'**
+  String get scenariosCompareSelected;
+
+  /// No description provided for @scenariosComparisonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario comparison'**
+  String get scenariosComparisonTitle;
+
+  /// No description provided for @scenariosUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String scenariosUpdated(String date);
+
+  /// No description provided for @scenariosDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get scenariosDuplicate;
+
+  /// No description provided for @scenariosDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get scenariosDelete;
+
+  /// No description provided for @scenariosDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete scenario?'**
+  String get scenariosDeleteTitle;
+
+  /// No description provided for @scenariosDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete “{name}”? This cannot be undone.'**
+  String scenariosDeleteBody(String name);
+
+  /// No description provided for @scenariosResetBuiltinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Base is recoverable and cannot be removed. Reset it to the original study values?'**
+  String get scenariosResetBuiltinBody;
+
+  /// No description provided for @scenariosMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get scenariosMetric;
+
   /// No description provided for @settingsScenario.
   ///
   /// In en, this message translates to:
@@ -1510,6 +1706,12 @@ abstract class AppLocalizations {
   /// **'English'**
   String get settingsLanguageEnglish;
 
+  /// No description provided for @settingsLanguageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get settingsLanguageArabic;
+
   /// No description provided for @settingsData.
   ///
   /// In en, this message translates to:
@@ -1521,6 +1723,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changes are saved on this device automatically.'**
   String get settingsAutosaveNote;
+
+  /// No description provided for @settingsExportScenario.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy scenario (JSON)'**
+  String get settingsExportScenario;
+
+  /// No description provided for @settingsScenarioExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario JSON copied to the clipboard'**
+  String get settingsScenarioExported;
+
+  /// No description provided for @settingsExportProjection.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy projection (Excel-compatible CSV)'**
+  String get settingsExportProjection;
+
+  /// No description provided for @settingsProjectionExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Projection CSV copied to the clipboard'**
+  String get settingsProjectionExported;
+
+  /// No description provided for @settingsImportScenario.
+  ///
+  /// In en, this message translates to:
+  /// **'Import scenario (JSON)'**
+  String get settingsImportScenario;
+
+  /// No description provided for @settingsImportJsonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a scenario JSON export below, then choose whether to create a new scenario or replace the active one.'**
+  String get settingsImportJsonHint;
+
+  /// No description provided for @settingsScenarioJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario JSON'**
+  String get settingsScenarioJson;
+
+  /// No description provided for @settingsImportCreateNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new scenario'**
+  String get settingsImportCreateNew;
+
+  /// No description provided for @settingsImportReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the active scenario'**
+  String get settingsImportReplace;
+
+  /// No description provided for @settingsImportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get settingsImportAction;
+
+  /// No description provided for @settingsScenarioImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario imported successfully'**
+  String get settingsScenarioImported;
 
   /// No description provided for @settingsResetScenario.
   ///
@@ -1606,6 +1874,12 @@ abstract class AppLocalizations {
   /// **'The saved scenario was created by a newer version of the app.'**
   String get errorStorageUnsupported;
 
+  /// No description provided for @errorImportInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The pasted JSON is not a valid scenario.'**
+  String get errorImportInvalid;
+
   /// No description provided for @errorGeneric.
   ///
   /// In en, this message translates to:
@@ -1641,6 +1915,696 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No results yet'**
   String get noResultsYet;
+
+  /// No description provided for @sectionInvestment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment analysis'**
+  String get sectionInvestment;
+
+  /// No description provided for @sectionFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Working capital and funding'**
+  String get sectionFunding;
+
+  /// No description provided for @sectionStress.
+  ///
+  /// In en, this message translates to:
+  /// **'Stress / critical failure'**
+  String get sectionStress;
+
+  /// No description provided for @fieldAnnualDiscountRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual discount rate'**
+  String get fieldAnnualDiscountRate;
+
+  /// No description provided for @fieldWorkingCapitalFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Working capital reserve'**
+  String get fieldWorkingCapitalFixed;
+
+  /// No description provided for @fieldOpeningDelayBuffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening delay buffer'**
+  String get fieldOpeningDelayBuffer;
+
+  /// No description provided for @fieldCriticalFailureStartMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical failure start month'**
+  String get fieldCriticalFailureStartMonth;
+
+  /// No description provided for @fieldCriticalFailureDowntimeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical failure downtime days'**
+  String get fieldCriticalFailureDowntimeDays;
+
+  /// No description provided for @helpAnnualDiscountRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for NPV and discounted payback. Monthly discounting uses this annual rate divided by 12.'**
+  String get helpAnnualDiscountRate;
+
+  /// No description provided for @helpWorkingCapitalFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash reserve held in addition to the start-up investment. Required funding is investment plus this reserve plus any opening delay buffer.'**
+  String get helpWorkingCapitalFixed;
+
+  /// No description provided for @helpCriticalFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical failure is off in the base case. These fields configure a stress event.'**
+  String get helpCriticalFailure;
+
+  /// No description provided for @enableCriticalFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable critical failure'**
+  String get enableCriticalFailure;
+
+  /// No description provided for @additionalExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom monthly expenses'**
+  String get additionalExpenses;
+
+  /// No description provided for @addExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get addExpense;
+
+  /// No description provided for @removeExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove expense'**
+  String get removeExpense;
+
+  /// No description provided for @noAdditionalExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom expenses'**
+  String get noAdditionalExpenses;
+
+  /// No description provided for @expenseName.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense name'**
+  String get expenseName;
+
+  /// No description provided for @monthlyAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly amount'**
+  String get monthlyAmount;
+
+  /// No description provided for @employeeRoster.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee roster'**
+  String get employeeRoster;
+
+  /// No description provided for @addEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Add employee'**
+  String get addEmployee;
+
+  /// No description provided for @editEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit employee'**
+  String get editEmployee;
+
+  /// No description provided for @deleteEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete employee'**
+  String get deleteEmployee;
+
+  /// No description provided for @noEmployees.
+  ///
+  /// In en, this message translates to:
+  /// **'No roster employees yet'**
+  String get noEmployees;
+
+  /// No description provided for @employeeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee name'**
+  String get employeeName;
+
+  /// No description provided for @founder.
+  ///
+  /// In en, this message translates to:
+  /// **'Founder (unpaid)'**
+  String get founder;
+
+  /// No description provided for @fixedMonthlySalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed monthly salary (optional)'**
+  String get fixedMonthlySalary;
+
+  /// No description provided for @weeklyShifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly shifts'**
+  String get weeklyShifts;
+
+  /// No description provided for @shifts.
+  ///
+  /// In en, this message translates to:
+  /// **'shifts'**
+  String get shifts;
+
+  /// No description provided for @addShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Add shift'**
+  String get addShift;
+
+  /// No description provided for @weekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday'**
+  String get weekday;
+
+  /// No description provided for @startHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Start hour'**
+  String get startHour;
+
+  /// No description provided for @endHour.
+  ///
+  /// In en, this message translates to:
+  /// **'End hour'**
+  String get endHour;
+
+  /// No description provided for @breakHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Break hours'**
+  String get breakHours;
+
+  /// No description provided for @monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// No description provided for @payrollConfiguration.
+  ///
+  /// In en, this message translates to:
+  /// **'Payroll configuration'**
+  String get payrollConfiguration;
+
+  /// No description provided for @payrollMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Payroll mode'**
+  String get payrollMode;
+
+  /// No description provided for @payrollFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed per employee'**
+  String get payrollFixed;
+
+  /// No description provided for @payrollProportional.
+  ///
+  /// In en, this message translates to:
+  /// **'Proportional to hours'**
+  String get payrollProportional;
+
+  /// No description provided for @sharedPayrollBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared monthly payroll budget'**
+  String get sharedPayrollBudget;
+
+  /// No description provided for @overtimeMultiplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Overtime multiplier'**
+  String get overtimeMultiplier;
+
+  /// No description provided for @regularHoursCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular monthly hours cap (optional)'**
+  String get regularHoursCap;
+
+  /// No description provided for @bonusConfiguration.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus configuration'**
+  String get bonusConfiguration;
+
+  /// No description provided for @bonusMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus mode'**
+  String get bonusMode;
+
+  /// No description provided for @bonusDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get bonusDisabled;
+
+  /// No description provided for @bonusExcessRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage of excess revenue'**
+  String get bonusExcessRevenue;
+
+  /// No description provided for @bonusFixedThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed amount at threshold'**
+  String get bonusFixedThreshold;
+
+  /// No description provided for @revenueTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue target'**
+  String get revenueTarget;
+
+  /// No description provided for @thresholdMultiplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Threshold multiplier (percent points)'**
+  String get thresholdMultiplier;
+
+  /// No description provided for @percentageOfExcess.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage of excess'**
+  String get percentageOfExcess;
+
+  /// No description provided for @fixedBonusAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed bonus amount'**
+  String get fixedBonusAmount;
+
+  /// No description provided for @seasonalityNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Base occupancy still comes from the occupancy schedule. These factors multiply it only when seasonality is enabled.'**
+  String get seasonalityNotice;
+
+  /// No description provided for @seasonalityDemand.
+  ///
+  /// In en, this message translates to:
+  /// **'Demand factors'**
+  String get seasonalityDemand;
+
+  /// No description provided for @enableSeasonality.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable seasonality'**
+  String get enableSeasonality;
+
+  /// No description provided for @weatherFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather demand factor'**
+  String get weatherFactor;
+
+  /// No description provided for @marketingFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing demand factor'**
+  String get marketingFactor;
+
+  /// No description provided for @monthFactors.
+  ///
+  /// In en, this message translates to:
+  /// **'Month factors'**
+  String get monthFactors;
+
+  /// No description provided for @dayFactors.
+  ///
+  /// In en, this message translates to:
+  /// **'Day-of-week factors'**
+  String get dayFactors;
+
+  /// No description provided for @seasonalityEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar events'**
+  String get seasonalityEvents;
+
+  /// No description provided for @addEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Add event'**
+  String get addEvent;
+
+  /// No description provided for @editEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit event'**
+  String get editEvent;
+
+  /// No description provided for @noEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'No calendar events'**
+  String get noEvents;
+
+  /// No description provided for @eventName.
+  ///
+  /// In en, this message translates to:
+  /// **'Event name'**
+  String get eventName;
+
+  /// No description provided for @startMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Start month'**
+  String get startMonth;
+
+  /// No description provided for @endMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'End month'**
+  String get endMonth;
+
+  /// No description provided for @demandFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Demand factor'**
+  String get demandFactor;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// No description provided for @forecastingMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecasting mode'**
+  String get forecastingMode;
+
+  /// No description provided for @forecastingModeOccupancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupancy-driven'**
+  String get forecastingModeOccupancy;
+
+  /// No description provided for @forecastingModeMarketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing-driven'**
+  String get forecastingModeMarketing;
+
+  /// No description provided for @marketingForecastHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing-driven mode replaces the occupancy schedule when its inputs produce demand. Seasonality still multiplies the resulting occupancy; zero demand inputs fall back to the occupancy schedule.'**
+  String get marketingForecastHint;
+
+  /// No description provided for @monthlyMarketingBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly marketing budget'**
+  String get monthlyMarketingBudget;
+
+  /// No description provided for @marketingReach.
+  ///
+  /// In en, this message translates to:
+  /// **'People reached per month'**
+  String get marketingReach;
+
+  /// No description provided for @marketingConversionRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversion rate'**
+  String get marketingConversionRate;
+
+  /// No description provided for @averageRoundsPerCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Average rounds per converted customer'**
+  String get averageRoundsPerCustomer;
+
+  /// No description provided for @useWeeklyOperatingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Use weekly operating hours'**
+  String get useWeeklyOperatingHours;
+
+  /// No description provided for @weeklyOperatingHoursHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Set hours for each day. Thursday, Friday, and Saturday can be longer.'**
+  String get weeklyOperatingHoursHint;
+
+  /// No description provided for @equipmentLifecycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment lifecycle'**
+  String get equipmentLifecycle;
+
+  /// No description provided for @equipmentLifecycleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan reserves and an optional replacement; this does not predict forced equipment failure.'**
+  String get equipmentLifecycleHint;
+
+  /// No description provided for @usefulLifeMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Useful life'**
+  String get usefulLifeMonths;
+
+  /// No description provided for @replacementCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned replacement cost'**
+  String get replacementCost;
+
+  /// No description provided for @replacementCostHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave at zero to use the currently selected package cost.'**
+  String get replacementCostHint;
+
+  /// No description provided for @monthlyMaintenanceReserve.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly maintenance reserve'**
+  String get monthlyMaintenanceReserve;
+
+  /// No description provided for @sparePartsReserve.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly spare-parts reserve'**
+  String get sparePartsReserve;
+
+  /// No description provided for @includePlannedReplacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Include planned replacement in projection'**
+  String get includePlannedReplacement;
+
+  /// No description provided for @plannedReplacementHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds a one-time investment outflow at the rounded useful-life month.'**
+  String get plannedReplacementHint;
+
+  /// No description provided for @navActuals.
+  ///
+  /// In en, this message translates to:
+  /// **'Actuals'**
+  String get navActuals;
+
+  /// No description provided for @actualsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual vs forecast'**
+  String get actualsTitle;
+
+  /// No description provided for @actualsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter recorded results for trading months. Variance is actual minus forecast. Months without actuals stay blank.'**
+  String get actualsIntro;
+
+  /// No description provided for @actualsAddMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Add month actuals'**
+  String get actualsAddMonth;
+
+  /// No description provided for @actualsEditMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit month {month}'**
+  String actualsEditMonth(Object month);
+
+  /// No description provided for @actualsRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual revenue'**
+  String get actualsRevenue;
+
+  /// No description provided for @actualsExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual operating expenses'**
+  String get actualsExpenses;
+
+  /// No description provided for @actualsClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all actuals'**
+  String get actualsClearAll;
+
+  /// No description provided for @actualsClearMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get actualsClearMonth;
+
+  /// No description provided for @actualsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No actuals recorded yet.'**
+  String get actualsEmpty;
+
+  /// No description provided for @actualsVariance.
+  ///
+  /// In en, this message translates to:
+  /// **'Variance'**
+  String get actualsVariance;
+
+  /// No description provided for @actualsForecast.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecast'**
+  String get actualsForecast;
+
+  /// No description provided for @actualsActual.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual'**
+  String get actualsActual;
+
+  /// No description provided for @sectionDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt financing'**
+  String get sectionDebt;
+
+  /// No description provided for @enableDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Include debt financing'**
+  String get enableDebt;
+
+  /// No description provided for @fieldDebtPrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'Loan principal'**
+  String get fieldDebtPrincipal;
+
+  /// No description provided for @fieldDebtInterestRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual interest rate'**
+  String get fieldDebtInterestRate;
+
+  /// No description provided for @fieldDebtTermMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Term (months)'**
+  String get fieldDebtTermMonths;
+
+  /// No description provided for @fieldDebtFirstPaymentMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'First payment month'**
+  String get fieldDebtFirstPaymentMonth;
+
+  /// No description provided for @fieldDebtDisbursementMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Disbursement month'**
+  String get fieldDebtDisbursementMonth;
+
+  /// No description provided for @fieldDebtKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Amortization'**
+  String get fieldDebtKind;
+
+  /// No description provided for @debtKindAnnuity.
+  ///
+  /// In en, this message translates to:
+  /// **'Annuity (amortizing)'**
+  String get debtKindAnnuity;
+
+  /// No description provided for @debtKindInterestOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest-only (balloon principal)'**
+  String get debtKindInterestOnly;
+
+  /// No description provided for @debtHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt service changes cash flow, not operating profit. Disabled by default so the study baseline is unchanged.'**
+  String get debtHelp;
 }
 
 class _AppLocalizationsDelegate
@@ -1654,7 +2618,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1663,6 +2627,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
     case 'en':
       return AppLocalizationsEn();
   }

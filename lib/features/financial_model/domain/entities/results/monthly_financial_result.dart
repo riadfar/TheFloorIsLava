@@ -26,6 +26,8 @@ class MonthlyFinancialResult extends Equatable {
     required this.investmentOutflow,
     required this.netCashFlow,
     required this.cumulativeCashFlow,
+    this.debtInflow = Money.zero,
+    this.debtService = Money.zero,
   });
 
   /// 0 for the investment month, then 1..n for trading months.
@@ -56,6 +58,12 @@ class MonthlyFinancialResult extends Equatable {
   /// Start-up money leaving the business this month. Non-zero only in month 0.
   final Money investmentOutflow;
 
+  /// Principal received from lenders in this month.
+  final Money debtInflow;
+
+  /// Principal and interest paid to lenders in this month.
+  final Money debtService;
+
   final Money netCashFlow;
   final Money cumulativeCashFlow;
 
@@ -78,6 +86,8 @@ class MonthlyFinancialResult extends Equatable {
     profitMargin,
     isProfitMarginDefined,
     investmentOutflow,
+    debtInflow,
+    debtService,
     netCashFlow,
     cumulativeCashFlow,
   ];

@@ -11,7 +11,9 @@ class PaybackCalculator {
   ///
   /// Two figures come out of this: the workbook's answer (the crossing month
   /// itself) and a fractional refinement that assumes the crossing month's cash
-  /// arrives evenly across that month.
+  /// arrives evenly across that month. Because this uses cumulative net cash
+  /// flow, enabled debt changes payback through both its inflow and service;
+  /// ROI remains based on operating profit and investment instead.
   PaybackResult calculate(List<MonthlyFinancialResult> monthlyResults) {
     int? lastNegativeMonth;
     Money? previousCumulative;

@@ -1,12 +1,18 @@
 import '../entities/scenario/assumption_status.dart';
+import '../entities/scenario/employee_roster.dart';
 import '../entities/scenario/financial_scenario.dart';
+import '../entities/scenario/investment_assumptions.dart';
+import '../entities/scenario/marketing_assumptions.dart';
 import '../entities/scenario/operating_expense_model.dart';
+import '../entities/scenario/payroll_configuration.dart';
 import '../entities/scenario/projection_settings.dart';
 import '../entities/scenario/revenue_model.dart';
 import '../entities/scenario/scenario_metadata.dart';
 import '../entities/scenario/sensitivity_settings.dart';
+import '../entities/scenario/seasonality_model.dart';
 import '../entities/scenario/staffing_model.dart';
 import '../entities/scenario/startup_cost_model.dart';
+import '../entities/scenario/stress_assumptions.dart';
 import '../value_objects/minutes.dart';
 import '../value_objects/money.dart';
 import '../value_objects/percentage.dart';
@@ -75,6 +81,13 @@ abstract final class BaselineScenario {
         expansionMonth: 3,
         monthlySalaryPerEmployee: Money.units(160),
         monthlyIncentivePerEmployee: Money.units(30),
+        payroll: PayrollConfiguration(
+          mode: PayrollAllocationMode.fixedPerEmployee,
+          overtimeMultiplier: 1.5,
+          staffingExpansionOccupancyThreshold: Percentage.fromPercent(40),
+        ),
+        roster: EmployeeRoster(),
+        headcountRule: StaffingHeadcountRule.byMonth,
       ),
       operatingExpenses: const OperatingExpenseModel(
         rent: Money.units(3000),
@@ -123,6 +136,14 @@ abstract final class BaselineScenario {
         ),
       ),
       projection: const ProjectionSettings(projectionMonths: 24),
+      investmentAssumptions: const InvestmentAssumptions(
+        annualDiscountRate: Percentage.fromPercent(10),
+      ),
+      marketingAssumptions: const MarketingAssumptions(
+        monthlyMarketingBudget: Money.units(150),
+      ),
+      seasonality: const SeasonalityModel(enabled: false),
+      stressAssumptions: const StressAssumptions(criticalFailureEnabled: false),
       sensitivity: const SensitivitySettings(
         scenarios: [
           SensitivityScenarioDefinition(
@@ -146,6 +167,21 @@ abstract final class BaselineScenario {
       annotations: annotations,
     );
   }
+
+  /// Illustrative demand factors only; the baseline deliberately disables them.
+  static SeasonalityModel syrianSeasonalityDefaults() => const SeasonalityModel(
+    enabled: false,
+    monthFactors: {1: 0.9, 2: 0.9, 6: 1.1, 7: 1.1, 8: 1.1},
+  );
+
+  static FinancialScenario worstCase({DateTime? now}) =>
+      build(now: now).copyWith(
+        stressAssumptions: const StressAssumptions(
+          criticalFailureEnabled: true,
+          failureStartMonth: 6,
+          downtimeDays: 14,
+        ),
+      );
 
   /// How much confidence the study attaches to each input.
   ///

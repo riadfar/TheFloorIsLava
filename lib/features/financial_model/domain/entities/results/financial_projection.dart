@@ -4,7 +4,11 @@ import '../../value_objects/minutes.dart';
 import '../../value_objects/money.dart';
 import '../scenario/financial_scenario.dart';
 import '../scenario/projection_settings.dart';
+import '../../services/variance_calculator.dart';
 import 'annual_result.dart';
+import 'break_even_result.dart';
+import 'investment_returns_result.dart';
+import 'monthly_cash_position.dart';
 import 'monthly_financial_result.dart';
 import 'payback_result.dart';
 import 'roi_result.dart';
@@ -49,8 +53,16 @@ class FinancialProjection extends Equatable {
     required this.annualResults,
     required this.payback,
     required this.roi,
+    required this.breakEven,
+    required this.investmentReturns,
     required this.sensitivityResults,
     required this.steadyStateMonthNumber,
+    required this.workingCapitalRequirement,
+    required this.requiredFunding,
+    required this.minimumEndingCash,
+    required this.fundingGap,
+    required this.cashPositions,
+    this.variances = const [],
   });
 
   /// The exact inputs this projection was produced from, so a result can always
@@ -67,7 +79,15 @@ class FinancialProjection extends Equatable {
   final List<AnnualResult> annualResults;
   final PaybackResult payback;
   final RoiResult roi;
+  final BreakEvenResult breakEven;
+  final InvestmentReturnsResult investmentReturns;
   final List<SensitivityResult> sensitivityResults;
+  final Money workingCapitalRequirement;
+  final Money requiredFunding;
+  final Money minimumEndingCash;
+  final Money fundingGap;
+  final List<MonthlyCashPosition> cashPositions;
+  final List<MonthlyVariance> variances;
 
   /// The first month that runs at both stable occupancy and final headcount.
   /// This is the month that represents "a normal month" for headline figures.
@@ -111,7 +131,15 @@ class FinancialProjection extends Equatable {
     annualResults,
     payback,
     roi,
+    breakEven,
+    investmentReturns,
     sensitivityResults,
     steadyStateMonthNumber,
+    workingCapitalRequirement,
+    requiredFunding,
+    minimumEndingCash,
+    fundingGap,
+    cashPositions,
+    variances,
   ];
 }

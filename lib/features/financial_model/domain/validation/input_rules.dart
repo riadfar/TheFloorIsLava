@@ -106,6 +106,11 @@ abstract final class InputRules {
     AssumptionKey.projectionMonths: NumericRule(min: 1, max: 600),
     AssumptionKey.conservativeOccupancy: _percent,
     AssumptionKey.optimisticOccupancy: _percent,
+    AssumptionKey.annualDiscountRate: _nonNegative,
+    AssumptionKey.workingCapitalFixed: _nonNegative,
+    AssumptionKey.openingDelayBuffer: _nonNegative,
+    AssumptionKey.criticalFailureStartMonth: NumericRule(min: 1, max: 120),
+    AssumptionKey.criticalFailureDowntimeDays: NumericRule(min: 0, max: 31),
   };
 
   static NumericRule ruleFor(AssumptionKey key) =>

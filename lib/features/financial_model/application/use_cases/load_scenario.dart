@@ -31,6 +31,8 @@ class LoadScenario {
 
   final ScenarioRepository _repository;
 
+  ScenarioRepository get repository => _repository;
+
   Future<LoadedScenario> call() async {
     final result = await _repository.loadActiveScenario();
 

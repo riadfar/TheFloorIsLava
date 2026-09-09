@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
 
 import '../../../app/theme/app_theme.dart';
 import '../../../core/responsive/responsive_layout.dart';
@@ -100,6 +101,7 @@ class SettingsScreen extends StatelessWidget {
                         items: {
                           '': l10n.settingsLanguageSystem,
                           'en': l10n.settingsLanguageEnglish,
+                          'ar': l10n.settingsLanguageArabic,
                         },
                         onChanged: (code) => settingsCubit.setLanguage(
                           code.isEmpty ? null : code,
@@ -113,13 +115,40 @@ class SettingsScreen extends StatelessWidget {
                 child: SectionCard(
                   title: l10n.settingsData,
                   subtitle: l10n.settingsAutosaveNote,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: OutlinedButton.icon(
-                      onPressed: () => _confirmReset(context, scenarioCubit),
-                      icon: const Icon(Icons.restart_alt),
-                      label: Text(l10n.settingsResetScenario),
-                    ),
+                  child: Wrap(
+                    spacing: AppSpacing.md,
+                    runSpacing: AppSpacing.md,
+                    children: [
+                      OutlinedButton.icon(
+                        onPressed: () => _copyExport(
+                          context,
+                          scenarioCubit.buildScenarioJsonExport(),
+                          l10n.settingsScenarioExported,
+                        ),
+                        icon: const Icon(Icons.content_copy),
+                        label: Text(l10n.settingsExportScenario),
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: () => _copyExport(
+                          context,
+                          scenarioCubit.buildProjectionCsvExport(),
+                          l10n.settingsProjectionExported,
+                        ),
+                        icon: const Icon(Icons.table_view_outlined),
+                        label: Text(l10n.settingsExportProjection),
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: () =>
+                            _showImportDialog(context, scenarioCubit),
+                        icon: const Icon(Icons.content_paste),
+                        label: Text(l10n.settingsImportScenario),
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: () => _confirmReset(context, scenarioCubit),
+                        icon: const Icon(Icons.restart_alt),
+                        label: Text(l10n.settingsResetScenario),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -149,6 +178,101 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _copyExport(
+    BuildContext context,
+    String text,
+    String confirmation,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    await Clipboard.setData(ClipboardData(text: text));
+    messenger.showSnackBar(SnackBar(content: Text(confirmation)));
+  }
+
+  Future<void> _showImportDialog(
+    BuildContext context,
+    ScenarioCubit cubit,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final controller = TextEditingController();
+    var mode = _ImportMode.createNew;
+
+    final submitted = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(l10n.settingsImportScenario),
+          content: SizedBox(
+            width: 560,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(l10n.settingsImportJsonHint),
+                  const SizedBox(height: AppSpacing.md),
+                  TextField(
+                    controller: controller,
+                    minLines: 6,
+                    maxLines: 12,
+                    decoration: InputDecoration(
+                      labelText: l10n.settingsScenarioJson,
+                      alignLabelWithHint: true,
+                    ),
+                  ),
+                  RadioGroup<_ImportMode>(
+                    groupValue: mode,
+                    onChanged: (value) {
+                      if (value != null) setState(() => mode = value);
+                    },
+                    child: Column(
+                      children: [
+                        RadioListTile<_ImportMode>(
+                          value: _ImportMode.createNew,
+                          title: Text(l10n.settingsImportCreateNew),
+                        ),
+                        RadioListTile<_ImportMode>(
+                          value: _ImportMode.replaceActive,
+                          title: Text(l10n.settingsImportReplace),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () async {
+                if (controller.text.trim().isEmpty) return;
+                await cubit.importScenarioFromJson(
+                  controller.text,
+                  asNewScenario: mode == _ImportMode.createNew,
+                );
+                if (dialogContext.mounted) {
+                  Navigator.of(dialogContext).pop(true);
+                }
+              },
+              child: Text(l10n.settingsImportAction),
+            ),
+          ],
+        ),
+      ),
+    );
+    controller.dispose();
+
+    if (submitted == true && cubit.state.failure == null) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.settingsScenarioImported)),
+      );
+    }
+  }
+
   Future<void> _confirmReset(BuildContext context, ScenarioCubit cubit) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -176,6 +300,8 @@ class SettingsScreen extends StatelessWidget {
     messenger.showSnackBar(SnackBar(content: Text(l10n.settingsResetDone)));
   }
 }
+
+enum _ImportMode { createNew, replaceActive }
 
 class _ScenarioNameField extends StatefulWidget {
   const _ScenarioNameField({required this.name, required this.onChanged});

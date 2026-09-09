@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../value_objects/money.dart';
 import '../../value_objects/percentage.dart';
 import 'cost_item.dart';
+import 'equipment_lifecycle_assumptions.dart';
 
 /// One purchasable equipment option.
 class EquipmentPackage extends Equatable {
@@ -222,27 +223,37 @@ class StartupCostModel extends Equatable {
     required this.fitOut,
     required this.property,
     required this.preOpening,
+    this.equipmentLifecycle = const EquipmentLifecycleAssumptions(),
   });
 
   final EquipmentModel equipment;
   final FitOutModel fitOut;
   final PropertyModel property;
   final PreOpeningModel preOpening;
+  final EquipmentLifecycleAssumptions equipmentLifecycle;
 
   StartupCostModel copyWith({
     EquipmentModel? equipment,
     FitOutModel? fitOut,
     PropertyModel? property,
     PreOpeningModel? preOpening,
+    EquipmentLifecycleAssumptions? equipmentLifecycle,
   }) {
     return StartupCostModel(
       equipment: equipment ?? this.equipment,
       fitOut: fitOut ?? this.fitOut,
       property: property ?? this.property,
       preOpening: preOpening ?? this.preOpening,
+      equipmentLifecycle: equipmentLifecycle ?? this.equipmentLifecycle,
     );
   }
 
   @override
-  List<Object?> get props => [equipment, fitOut, property, preOpening];
+  List<Object?> get props => [
+    equipment,
+    fitOut,
+    property,
+    preOpening,
+    equipmentLifecycle,
+  ];
 }

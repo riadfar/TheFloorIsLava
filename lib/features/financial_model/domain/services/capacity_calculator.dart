@@ -19,8 +19,14 @@ class CapacityCalculator {
   Minutes totalRoundTime(CapacityModel capacity) =>
       capacity.roundDuration + capacity.turnaroundTime;
 
-  Minutes operatingMinutesPerDay(OperatingSchedule schedule) =>
-      Minutes.fromHours(schedule.hoursPerDay);
+  Minutes operatingMinutesPerDay(OperatingSchedule schedule) {
+    // The monthly engine models one flat representative day. An enabled
+    // weekly profile weights that day using the average of its open days.
+    final effectiveHours = schedule.weeklyProfile.isEnabled
+        ? schedule.weeklyProfile.averageHoursPerOperatingDay()
+        : schedule.hoursPerDay;
+    return Minutes.fromHours(effectiveHours);
+  }
 
   /// Whole rounds that fit into a trading day.
   ///

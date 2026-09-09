@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../app/theme/app_theme.dart';
 import '../../../../core/responsive/responsive_layout.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/entities/results/financial_projection.dart';
 import '../../domain/entities/results/startup_cost_breakdown.dart';
+import '../../application/state/scenario_cubit.dart';
+import '../../domain/entities/scenario/equipment_lifecycle_assumptions.dart';
+import '../../domain/value_objects/money.dart';
 import '../../domain/services/metric_explanation_service.dart';
 import '../l10n/model_labels.dart';
 import '../widgets/calculation_explanation.dart';
@@ -64,10 +68,124 @@ class StartupCostsScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              ScreenSection(
+                child: _EquipmentLifecycleCard(
+                  lifecycle: scenario.startupCosts.equipmentLifecycle,
+                ),
+              ),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _EquipmentLifecycleCard extends StatelessWidget {
+  const _EquipmentLifecycleCard({required this.lifecycle});
+
+  final EquipmentLifecycleAssumptions lifecycle;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final formatter = context.formatter;
+    final cubit = context.read<ScenarioCubit>();
+    void update(EquipmentLifecycleAssumptions value) =>
+        cubit.setEquipmentLifecycle(value);
+
+    return SectionCard(
+      title: l10n.equipmentLifecycle,
+      subtitle: l10n.equipmentLifecycleHint,
+      child: Column(
+        children: [
+          TextFormField(
+            key: const ValueKey('useful-life'),
+            initialValue: formatter.forEditing(lifecycle.usefulLifeMonths),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: l10n.usefulLifeMonths,
+              suffixText: l10n.unitMonths,
+            ),
+            onChanged: (text) {
+              final value = formatter.parseNumber(text);
+              if (value != null && value >= 0) {
+                update(lifecycle.copyWith(usefulLifeMonths: value));
+              }
+            },
+          ),
+          const SizedBox(height: AppSpacing.md),
+          TextFormField(
+            key: const ValueKey('replacement-cost'),
+            initialValue: formatter.forEditing(
+              lifecycle.replacementCost.amount,
+            ),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: l10n.replacementCost,
+              prefixText: formatter.currencySymbol,
+              helperText: l10n.replacementCostHint,
+            ),
+            onChanged: (text) {
+              final value = formatter.parseNumber(text);
+              if (value != null && value >= 0) {
+                update(lifecycle.copyWith(replacementCost: Money.of(value)));
+              }
+            },
+          ),
+          const SizedBox(height: AppSpacing.md),
+          TextFormField(
+            key: const ValueKey('maintenance-reserve'),
+            initialValue: formatter.forEditing(
+              lifecycle.monthlyMaintenanceReserve.amount,
+            ),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: l10n.monthlyMaintenanceReserve,
+              prefixText: formatter.currencySymbol,
+            ),
+            onChanged: (text) {
+              final value = formatter.parseNumber(text);
+              if (value != null && value >= 0) {
+                update(
+                  lifecycle.copyWith(
+                    monthlyMaintenanceReserve: Money.of(value),
+                  ),
+                );
+              }
+            },
+          ),
+          const SizedBox(height: AppSpacing.md),
+          TextFormField(
+            key: const ValueKey('parts-reserve'),
+            initialValue: formatter.forEditing(
+              lifecycle.sparePartsReserveMonthly.amount,
+            ),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: l10n.sparePartsReserve,
+              prefixText: formatter.currencySymbol,
+            ),
+            onChanged: (text) {
+              final value = formatter.parseNumber(text);
+              if (value != null && value >= 0) {
+                update(
+                  lifecycle.copyWith(sparePartsReserveMonthly: Money.of(value)),
+                );
+              }
+            },
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l10n.includePlannedReplacement),
+            subtitle: Text(l10n.plannedReplacementHint),
+            value: lifecycle.includeReplacementInProjection,
+            onChanged: (value) => update(
+              lifecycle.copyWith(includeReplacementInProjection: value),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'projection_settings.dart';
 import 'revenue_model.dart';
 import 'sensitivity_settings.dart';
 import 'startup_cost_model.dart';
+import 'working_capital_model.dart';
 
 /// What a field measures, so the UI knows how to format and edit it without a
 /// hand-written case for every input.
@@ -214,6 +215,29 @@ abstract final class ScenarioFields {
       unit: FieldUnit.percent,
       decimals: 1,
     ),
+    AssumptionKey.annualDiscountRate: ScenarioField(
+      key: AssumptionKey.annualDiscountRate,
+      unit: FieldUnit.percent,
+      decimals: 1,
+    ),
+    AssumptionKey.workingCapitalFixed: ScenarioField(
+      key: AssumptionKey.workingCapitalFixed,
+      unit: FieldUnit.money,
+    ),
+    AssumptionKey.openingDelayBuffer: ScenarioField(
+      key: AssumptionKey.openingDelayBuffer,
+      unit: FieldUnit.money,
+    ),
+    AssumptionKey.criticalFailureStartMonth: ScenarioField(
+      key: AssumptionKey.criticalFailureStartMonth,
+      unit: FieldUnit.months,
+      decimals: 0,
+    ),
+    AssumptionKey.criticalFailureDowntimeDays: ScenarioField(
+      key: AssumptionKey.criticalFailureDowntimeDays,
+      unit: FieldUnit.days,
+      decimals: 0,
+    ),
   };
 
   static ScenarioField? descriptorFor(AssumptionKey key) => descriptors[key];
@@ -281,6 +305,16 @@ abstract final class ScenarioFields {
         scenario,
         SensitivityScenarioKind.optimistic,
       ),
+      AssumptionKey.annualDiscountRate =>
+        scenario.investmentAssumptions.annualDiscountRate.percent,
+      AssumptionKey.workingCapitalFixed =>
+        scenario.workingCapital.fixedAmount.amount,
+      AssumptionKey.openingDelayBuffer =>
+        scenario.fundingAssumptions.openingDelayBuffer.amount,
+      AssumptionKey.criticalFailureStartMonth =>
+        scenario.stressAssumptions.failureStartMonth,
+      AssumptionKey.criticalFailureDowntimeDays =>
+        scenario.stressAssumptions.downtimeDays,
       // Not a number: the equipment choice is made by selecting a package.
       AssumptionKey.selectedEquipmentPackage => null,
     };
@@ -520,6 +554,37 @@ abstract final class ScenarioFields {
           scenario,
           SensitivityScenarioKind.optimistic,
           value,
+        );
+      case AssumptionKey.annualDiscountRate:
+        return scenario.copyWith(
+          investmentAssumptions: scenario.investmentAssumptions.copyWith(
+            annualDiscountRate: Percentage.fromPercent(value),
+          ),
+        );
+      case AssumptionKey.workingCapitalFixed:
+        return scenario.copyWith(
+          workingCapital: scenario.workingCapital.copyWith(
+            method: WorkingCapitalMethod.fixedAmount,
+            fixedAmount: Money.of(value),
+          ),
+        );
+      case AssumptionKey.openingDelayBuffer:
+        return scenario.copyWith(
+          fundingAssumptions: scenario.fundingAssumptions.copyWith(
+            openingDelayBuffer: Money.of(value),
+          ),
+        );
+      case AssumptionKey.criticalFailureStartMonth:
+        return scenario.copyWith(
+          stressAssumptions: scenario.stressAssumptions.copyWith(
+            failureStartMonth: value.round().clamp(1, 120),
+          ),
+        );
+      case AssumptionKey.criticalFailureDowntimeDays:
+        return scenario.copyWith(
+          stressAssumptions: scenario.stressAssumptions.copyWith(
+            downtimeDays: value.round().clamp(0, 31),
+          ),
         );
       case AssumptionKey.selectedEquipmentPackage:
         // Chosen from a list, not typed. Use [selectEquipmentPackage].

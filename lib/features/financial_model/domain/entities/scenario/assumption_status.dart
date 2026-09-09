@@ -66,6 +66,11 @@ enum AssumptionKey {
   projectionMonths,
   conservativeOccupancy,
   optimisticOccupancy,
+  annualDiscountRate,
+  workingCapitalFixed,
+  openingDelayBuffer,
+  criticalFailureStartMonth,
+  criticalFailureDowntimeDays,
 }
 
 /// The confidence status attached to each named input.

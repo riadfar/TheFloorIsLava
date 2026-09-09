@@ -11,8 +11,10 @@ class CashFlowCalculator {
   Money netCashFlow({
     required Money operatingProfit,
     required Money investmentOutflow,
+    Money debtInflow = Money.zero,
+    Money debtService = Money.zero,
   }) {
-    return operatingProfit - investmentOutflow;
+    return operatingProfit - investmentOutflow + debtInflow - debtService;
   }
 
   Money cumulativeCashFlow({

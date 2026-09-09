@@ -206,6 +206,66 @@ class _MetricGrid extends StatelessWidget {
               '${l10n.termMaximumRounds.toLowerCase()}${l10n.perDay}',
           onExplain: () => onExplain(MetricId.actualRoundsPerDay, steadyState),
         ),
+        MetricCard(
+          label: l10n.metricRequiredFunding,
+          value: formatter.moneyWhole(projection.requiredFunding),
+          caption: projection.workingCapitalRequirement.isZero
+              ? null
+              : '${l10n.metricWorkingCapital}: '
+                    '${formatter.moneyWhole(projection.workingCapitalRequirement)}',
+        ),
+        MetricCard(
+          label: l10n.metricBreakEvenOccupancy,
+          value: projection.breakEven.breakEvenOccupancy.isValid
+              ? formatter.percentage(
+                  projection.breakEven.breakEvenOccupancy.value!,
+                )
+              : l10n.metricUnavailable,
+          caption: projection.breakEven.breakEvenRevenue.isValid
+              ? '${l10n.metricBreakEvenRevenue}: '
+                    '${formatter.moneyWhole(projection.breakEven.breakEvenRevenue.value!)}'
+              : null,
+        ),
+        MetricCard(
+          label: l10n.metricNpv,
+          value: projection.investmentReturns.npv.isValid
+              ? formatter.signedMoney(projection.investmentReturns.npv.value!)
+              : l10n.metricUnavailable,
+          tone: !projection.investmentReturns.npv.isValid
+              ? MetricTone.neutral
+              : projection.investmentReturns.npv.value!.isNegative
+              ? MetricTone.negative
+              : MetricTone.positive,
+          caption: formatter.percentage(
+            projection.investmentReturns.discountRateUsed,
+          ),
+        ),
+        MetricCard(
+          label: l10n.metricIrr,
+          value: projection.investmentReturns.irr.isValid
+              ? formatter.percentage(projection.investmentReturns.irr.value!)
+              : l10n.irrUnavailable,
+          tone: projection.investmentReturns.irr.isValid
+              ? MetricTone.neutral
+              : MetricTone.warning,
+        ),
+        MetricCard(
+          label: l10n.metricDiscountedPayback,
+          value: projection.investmentReturns.discountedPaybackMonth.isValid
+              ? l10n.paybackDuringMonth(
+                  projection.investmentReturns.discountedPaybackMonth.value!,
+                )
+              : l10n.notAvailable,
+        ),
+        if (projection.fundingGap.isPositive)
+          MetricCard(
+            label: l10n.metricFundingGap,
+            value: formatter.moneyWhole(projection.fundingGap),
+            tone: MetricTone.negative,
+            caption:
+                '${l10n.metricMinimumCash}: '
+                '${formatter.moneyWhole(projection.minimumEndingCash)}',
+          ),
       ],
     );
   }

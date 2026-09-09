@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../core/responsive/responsive_layout.dart';
+import '../../features/financial_model/presentation/screens/actuals_screen.dart';
 import '../../features/financial_model/presentation/screens/assumptions_screen.dart';
 import '../../features/financial_model/presentation/screens/dashboard_screen.dart';
 import '../../features/financial_model/presentation/screens/projection_screen.dart';
+import '../../features/financial_model/presentation/screens/scenarios_screen.dart';
+import '../../features/financial_model/presentation/screens/seasonality_screen.dart';
 import '../../features/financial_model/presentation/screens/sensitivity_screen.dart';
+import '../../features/financial_model/presentation/screens/staffing_screen.dart';
 import '../../features/financial_model/presentation/screens/startup_costs_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -14,9 +18,13 @@ import '../theme/app_theme.dart';
 enum AppDestination {
   dashboard,
   assumptions,
+  staffing,
+  seasonality,
   projection,
   startup,
   sensitivity,
+  scenarios,
+  actuals,
   settings,
 }
 
@@ -24,36 +32,52 @@ extension AppDestinationView on AppDestination {
   IconData get icon => switch (this) {
     AppDestination.dashboard => Icons.dashboard_outlined,
     AppDestination.assumptions => Icons.tune_outlined,
+    AppDestination.staffing => Icons.people_outline,
+    AppDestination.seasonality => Icons.calendar_month_outlined,
     AppDestination.projection => Icons.table_chart_outlined,
     AppDestination.startup => Icons.receipt_long_outlined,
     AppDestination.sensitivity => Icons.insights_outlined,
+    AppDestination.scenarios => Icons.layers_outlined,
+    AppDestination.actuals => Icons.fact_check_outlined,
     AppDestination.settings => Icons.settings_outlined,
   };
 
   IconData get selectedIcon => switch (this) {
     AppDestination.dashboard => Icons.dashboard,
     AppDestination.assumptions => Icons.tune,
+    AppDestination.staffing => Icons.people,
+    AppDestination.seasonality => Icons.calendar_month,
     AppDestination.projection => Icons.table_chart,
     AppDestination.startup => Icons.receipt_long,
     AppDestination.sensitivity => Icons.insights,
+    AppDestination.scenarios => Icons.layers,
+    AppDestination.actuals => Icons.fact_check,
     AppDestination.settings => Icons.settings,
   };
 
   String label(AppLocalizations l10n) => switch (this) {
     AppDestination.dashboard => l10n.navDashboard,
     AppDestination.assumptions => l10n.navAssumptions,
+    AppDestination.staffing => l10n.navStaffing,
+    AppDestination.seasonality => l10n.navSeasonality,
     AppDestination.projection => l10n.navProjection,
     AppDestination.startup => l10n.navStartup,
     AppDestination.sensitivity => l10n.navSensitivity,
+    AppDestination.scenarios => l10n.navScenarios,
+    AppDestination.actuals => l10n.navActuals,
     AppDestination.settings => l10n.navSettings,
   };
 
   Widget get screen => switch (this) {
     AppDestination.dashboard => const DashboardScreen(),
     AppDestination.assumptions => const AssumptionsScreen(),
+    AppDestination.staffing => const StaffingScreen(),
+    AppDestination.seasonality => const SeasonalityScreen(),
     AppDestination.projection => const ProjectionScreen(),
     AppDestination.startup => const StartupCostsScreen(),
     AppDestination.sensitivity => const SensitivityScreen(),
+    AppDestination.scenarios => const ScenariosScreen(),
+    AppDestination.actuals => const ActualsScreen(),
     AppDestination.settings => const SettingsScreen(),
   };
 }

@@ -78,6 +78,56 @@ void main() {
       expect(capacity.maximumRoundsPerDay(revenueWith(hoursPerDay: 0)), 0);
     });
 
+    test('an empty weekly profile preserves fallback capacity', () {
+      final model = revenueWith().copyWith(
+        schedule: revenueWith().schedule.copyWith(
+          weeklyProfile: const WeeklyOperatingProfile(),
+        ),
+      );
+
+      expect(capacity.maximumRoundsPerDay(model), 39);
+    });
+
+    test('equal weekly hours preserve baseline rounds', () {
+      final model = revenueWith().copyWith(
+        schedule: revenueWith().schedule.copyWith(
+          weeklyProfile: const WeeklyOperatingProfile(
+            days: [
+              DayOperatingHours(weekday: 1, hours: 13),
+              DayOperatingHours(weekday: 2, hours: 13),
+              DayOperatingHours(weekday: 3, hours: 13),
+              DayOperatingHours(weekday: 4, hours: 13),
+              DayOperatingHours(weekday: 5, hours: 13),
+              DayOperatingHours(weekday: 6, hours: 13),
+              DayOperatingHours(weekday: 7, hours: 13),
+            ],
+          ),
+        ),
+      );
+
+      expect(capacity.maximumRoundsPerDay(model), 39);
+    });
+
+    test('longer Thu-Fri-Sat profile increases average and rounds', () {
+      const profile = WeeklyOperatingProfile(
+        days: [
+          DayOperatingHours(weekday: 1, hours: 13),
+          DayOperatingHours(weekday: 2, hours: 13),
+          DayOperatingHours(weekday: 3, hours: 13),
+          DayOperatingHours(weekday: 4, hours: 14),
+          DayOperatingHours(weekday: 5, hours: 14),
+          DayOperatingHours(weekday: 6, hours: 14),
+          DayOperatingHours(weekday: 7, hours: 13),
+        ],
+      );
+      final model = revenueWith().copyWith(
+        schedule: revenueWith().schedule.copyWith(weeklyProfile: profile),
+      );
+
+      expect(profile.averageHoursPerOperatingDay(), greaterThan(13));
+      expect(capacity.maximumRoundsPerDay(model), 40);
+    });
+
     test('a turnaround longer than the trading day leaves no rounds', () {
       expect(capacity.maximumRoundsPerDay(revenueWith(turnaround: 24 * 60)), 0);
     });
